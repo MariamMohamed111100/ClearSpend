@@ -415,3 +415,7 @@ textarea { resize: vertical; min-height: 110px; }
 
 .profile-avatar-image { width:35px; height:35px; border-radius:50%; object-fit:cover; }
 .advisor-result-panel .result-box { color: #f3faf4; }
+.remove-row { display: inline-grid; place-items: center; border: 1px solid #ffd7c8; background: #fff4ef; color: #cf633e; }
+.remove-row:hover { background: #ef8354; border-color: #ef8354; color: #fff; }
+.remove-row svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.dark-theme .remove-row { border-color: #6b493d; background: #362820; color: #ffad8b; }

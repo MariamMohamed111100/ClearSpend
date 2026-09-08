@@ -1,7 +1,7 @@
 import logging
 import os
 
-from flask import Flask, jsonify, render_template, request, session
+from flask import Flask, jsonify, redirect, render_template, request, session, url_for
 from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -55,6 +55,10 @@ def create_app(testing: bool = False) -> Flask:
     app.register_blueprint(auth_bp)
     app.register_blueprint(billing_bp)
     app.register_blueprint(dashboard_bp)
+
+    @app.route("/favicon.ico")
+    def favicon():
+        return redirect(url_for("static", filename="favicon.svg"), code=302)
 
     @app.before_request
     def apply_maintenance_mode():
