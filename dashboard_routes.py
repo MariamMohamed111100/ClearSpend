@@ -104,7 +104,7 @@ def dashboard_home():
         ).fetchall()
         history_rows = conn.execute("SELECT type, amount, base_amount, created_at FROM transactions WHERE user_id = ?", (session["user_id"],)).fetchall()
         notifications = conn.execute("SELECT * FROM notifications WHERE user_id = ? ORDER BY read, created_at DESC LIMIT 8", (session["user_id"],)).fetchall()
-        user = conn.execute("SELECT base_currency, email, avatar_filename FROM users WHERE id = ?", (session["user_id"],)).fetchone()
+        user = conn.execute("SELECT base_currency, email, avatar_filename, avatar_data FROM users WHERE id = ?", (session["user_id"],)).fetchone()
 
     formatted_budgets = []
     for budget in budgets:
@@ -143,6 +143,7 @@ def dashboard_home():
         unread_notifications=sum(not row["read"] for row in notifications),
         is_admin=bool(current_app.config["ADMIN_EMAIL"] and user and user["email"].lower() == current_app.config["ADMIN_EMAIL"]),
         avatar_filename=(user["avatar_filename"] if user else None),
+        avatar_data=(user["avatar_data"] if user else None),
         monthly_history=monthly_history(history_rows),
         forecast=_forecast(monthly_history(history_rows), plan=(subscription["plan"] if subscription else "free")),
     )

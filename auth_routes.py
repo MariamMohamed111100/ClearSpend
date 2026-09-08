@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import secrets
 import sqlite3
+import base64
 from functools import wraps
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -274,7 +275,7 @@ def settings():
 
     with get_db_connection() as conn:
         user = conn.execute(
-            "SELECT name, email, base_currency, preferred_language, theme_preference, two_factor_enabled, avatar_filename FROM users WHERE id = ?", (user_id,)
+            "SELECT name, email, base_currency, preferred_language, theme_preference, two_factor_enabled, avatar_filename, avatar_data FROM users WHERE id = ?", (user_id,)
         ).fetchone()
     return render_template("settings.html", user=user)
 
@@ -282,9 +283,6 @@ def settings():
 @bp.route("/settings/avatar", methods=["POST"])
 def upload_avatar():
     user_id = session.get("user_id")
-    if current_app.config.get("VERCEL"):
-        flash("Profile photo uploads need cloud storage before they can be used on Vercel.", "error")
-        return redirect(url_for("auth.settings"))
     image = request.files.get("avatar")
     if not user_id or not image or not image.filename:
         flash("Choose an image to upload.", "error")
@@ -293,12 +291,14 @@ def upload_avatar():
     if extension not in {".jpg", ".jpeg", ".png", ".webp"}:
         flash("Use a JPG, PNG, or WebP image.", "error")
         return redirect(url_for("auth.settings"))
-    filename = f"user-{user_id}{extension}"
-    destination = Path(current_app.static_folder) / "uploads"
-    destination.mkdir(exist_ok=True)
-    image.save(destination / filename)
+    image_data = image.read(2 * 1024 * 1024 + 1)
+    if len(image_data) > 2 * 1024 * 1024:
+        flash("Use a profile photo smaller than 2 MB.", "error")
+        return redirect(url_for("auth.settings"))
+    mime_type = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}[extension]
+    avatar_data = f"data:{mime_type};base64,{base64.b64encode(image_data).decode('ascii')}"
     with get_db_connection() as conn:
-        conn.execute("UPDATE users SET avatar_filename = ? WHERE id = ?", (filename, user_id))
+        conn.execute("UPDATE users SET avatar_data = ?, avatar_filename = NULL WHERE id = ?", (avatar_data, user_id))
     flash("Profile photo updated.", "success")
     return redirect(url_for("auth.settings"))
 

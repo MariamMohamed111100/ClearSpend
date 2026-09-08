@@ -414,3 +414,4 @@ textarea { resize: vertical; min-height: 110px; }
 .resend-verification button { border: 0; background: transparent; color: #d96c40; font: inherit; font-size: .76rem; font-weight: 700; cursor: pointer; }
 
 .profile-avatar-image { width:35px; height:35px; border-radius:50%; object-fit:cover; }
+.advisor-result-panel .result-box { color: #f3faf4; }

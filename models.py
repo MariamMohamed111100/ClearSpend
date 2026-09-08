@@ -167,6 +167,7 @@ def init_db() -> None:
             ("users", "two_factor_code_hash", "TEXT"),
             ("users", "two_factor_expires_at", "TEXT"),
             ("users", "avatar_filename", "TEXT"),
+            ("users", "avatar_data", "TEXT"),
             ("users", "role", "TEXT NOT NULL DEFAULT 'user'"),
             ("users", "account_status", "TEXT NOT NULL DEFAULT 'active'"),
             ("users", "last_login_at", "TEXT"),
@@ -201,6 +202,7 @@ def init_db() -> None:
         conn.execute("INSERT OR IGNORE INTO schema_migrations (version) VALUES (?)", ("005_two_factor_email",))
         conn.execute("INSERT OR IGNORE INTO schema_migrations (version) VALUES (?)", ("006_profiles_budget_periods",))
         conn.execute("INSERT OR IGNORE INTO schema_migrations (version) VALUES (?)", ("007_admin_operations",))
+        conn.execute("INSERT OR IGNORE INTO schema_migrations (version) VALUES (?)", ("008_database_avatars",))
         conn.commit()
 
 
@@ -305,6 +307,7 @@ def _init_postgres_db() -> None:
         conn.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_code_hash TEXT")
         conn.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS two_factor_expires_at TIMESTAMP")
         conn.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_filename TEXT")
+        conn.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_data TEXT")
         conn.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'user'")
         conn.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS account_status TEXT NOT NULL DEFAULT 'active'")
         conn.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS last_login_at TIMESTAMP")
@@ -321,3 +324,4 @@ def _init_postgres_db() -> None:
         conn.execute("INSERT INTO schema_migrations (version) VALUES (?) ON CONFLICT DO NOTHING", ("005_two_factor_email",))
         conn.execute("INSERT INTO schema_migrations (version) VALUES (?) ON CONFLICT DO NOTHING", ("006_profiles_budget_periods",))
         conn.execute("INSERT INTO schema_migrations (version) VALUES (?) ON CONFLICT DO NOTHING", ("007_admin_operations",))
+        conn.execute("INSERT INTO schema_migrations (version) VALUES (?) ON CONFLICT DO NOTHING", ("008_database_avatars",))
