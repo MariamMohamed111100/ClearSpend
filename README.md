@@ -1,8 +1,30 @@
-# ClearSpend
+# ClearSpend ✦
 
-ClearSpend is a Flask financial-management application with account security, budgets, transactions, goals, reports, AI insights, support tickets, and an administrator control center.
+> A calmer, smarter way to see where your money goes.
 
-## Run locally
+[![Flask](https://img.shields.io/badge/Flask-3.1-16342d?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![PostgreSQL](https://img.shields.io/badge/Database-Neon_Postgres-4a2b65?logo=postgresql&logoColor=white)](https://neon.com/)
+[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-111111?logo=vercel&logoColor=white)](https://vercel.com/)
+
+**[Open ClearSpend ↗](https://clear-spend-23anbkx7l-mariam-3e97.vercel.app/)**
+
+ClearSpend is a full-stack personal-finance dashboard built with Flask. Add transactions, set budgets and savings goals, spot spending patterns, and get an AI-powered next step—all in one friendly workspace.
+
+## What you can do
+
+| 💸 Track | 🎯 Plan | ✨ Understand |
+| --- | --- | --- |
+| Add, edit, search, filter, and delete transactions. | Create monthly or weekly budgets and savings goals. | Get reports, charts, notifications, and Gemini financial insights. |
+
+| 🔐 Stay in control | 🌍 Make it yours | 🛠️ Manage the app |
+| --- | --- | --- |
+| Email verification, reset password, 2FA, secure sessions, data export, and account deletion. | Light/dark themes, Arabic/English workspace, base currency, and profile photo. | Admin dashboard, feature flags, support tickets, audit trail, and health checks. |
+
+## Tech stack
+
+`Flask` · `PostgreSQL / Neon` · `Vercel Functions` · `Google Gemini` · `Stripe` · `Brevo` · `Sentry`
+
+## Start locally
 
 ```powershell
 py -m venv .venv
@@ -12,66 +34,68 @@ Copy-Item .env.example .env
 python app.py
 ```
 
-Open `http://127.0.0.1:5000`.
+Then visit **http://127.0.0.1:5000**.
 
-## Deploy free on Vercel
+## Environment setup
 
-Vercel hosts the Flask application. A managed PostgreSQL database is required because Vercel Functions do not keep local files between invocations.
+Copy `.env.example` to `.env`; never commit the resulting `.env` file. The app works locally with SQLite by default. For AI, email, payments, and error tracking, add only the services you need.
 
-### 1. Create a Neon database
+| Variable | Needed for | Safe local default |
+| --- | --- | --- |
+| `SECRET_KEY` | Secure sessions | Use a long random value in production |
+| `DATABASE_URL` | Neon / PostgreSQL | Leave empty for local SQLite |
+| `GEMINI_API_KEY` | AI financial insights | Leave empty to disable AI requests |
+| `GEMINI_MODEL` | Gemini model selection | `gemini-3.6-flash` |
+| `ADMIN_EMAIL` | Admin access | Your admin login email |
+| `MAIL_*` | Verification and email alerts | Keep delivery suppressed while developing |
 
-1. Create a free Neon account and create a new PostgreSQL project.
-2. Copy its connection string. It begins with `postgresql://`.
-3. Do not place this connection string in GitHub or `.env.example`.
+## Deploy on Vercel + Neon
 
-### 2. Import the repository into Vercel
+1. Create a free [Neon](https://neon.com/) PostgreSQL project and copy its pooled connection string.
+2. Import this GitHub repository in [Vercel](https://vercel.com/). The included [vercel.json](vercel.json) is ready for Flask.
+3. In **Project Settings → Environment Variables**, add these values for **Production**:
 
-1. Create a Vercel account and sign in with GitHub.
-2. Click **Add New** then **Project**.
-3. Import `MariamMohamed111100/ClearSpend`.
-4. Keep the framework preset as auto-detected and click **Deploy**.
+   | Name | Value |
+   | --- | --- |
+   | `SECRET_KEY` | A newly generated long random value |
+   | `DATABASE_URL` | Your Neon connection string |
+   | `REQUIRE_POSTGRES` | `true` |
+   | `FLASK_DEBUG` | `false` |
+   | `APP_BASE_URL` | Your primary Production domain (not a one-off deployment URL) |
+   | `SESSION_COOKIE_SECURE` | `true` |
+   | `TRUST_PROXY_HEADERS` | `true` |
+   | `ADMIN_EMAIL` | Your login email address |
+   | `GEMINI_API_KEY` | Your Google AI Studio key, if using AI insights |
+   | `GEMINI_MODEL` | `gemini-3.6-flash` |
 
-`app.py` exports the Flask app directly. [vercel.json](vercel.json) includes the templates in the Python function bundle.
+4. Redeploy after changing environment variables. ClearSpend initializes its PostgreSQL tables on first startup.
 
-### 3. Add Vercel environment variables
+### Free-demo switches
 
-Open **Project Settings > Environment Variables** and add these values for **Production**:
+Use these while you are not ready to send real emails:
 
-| Name | Value |
-| --- | --- |
-| `SECRET_KEY` | A long new random value. |
-| `DATABASE_URL` | The Neon PostgreSQL connection string. |
-| `REQUIRE_POSTGRES` | `true` |
-| `FLASK_DEBUG` | `false` |
-| `APP_BASE_URL` | Your Vercel URL, for example `https://clearspend.vercel.app`. |
-| `SESSION_COOKIE_SECURE` | `true` |
-| `TRUST_PROXY_HEADERS` | `true` |
-| `ADMIN_EMAIL` | Your own login email address. |
-| `GEMINI_API_KEY` | Optional; needed for AI insights. |
-| `GEMINI_MODEL` | `gemini-3.6-flash` |
+```env
+REQUIRE_EMAIL_VERIFICATION=false
+MAIL_SUPPRESS_SEND=true
+```
 
-For a free demo, also add:
+## Production notes
 
-| Name | Value |
-| --- | --- |
-| `REQUIRE_EMAIL_VERIFICATION` | `false` |
-| `MAIL_SUPPRESS_SEND` | `true` |
+- Vercel Functions are stateless, so production data belongs in Neon—not `finance_app.db`.
+- Profile photos are stored with the user record for the current small-file implementation. For high-volume production use, move them to object storage.
+- Stripe, Brevo, Sentry, and Redis rate limiting are optional. Add their keys only after configuring the corresponding service.
+- The Vercel Hobby plan has usage limits and is intended for personal, non-commercial projects.
 
-After adding variables, go to **Deployments** and choose **Redeploy**. On first startup, ClearSpend creates its PostgreSQL tables automatically.
-
-### Vercel demo limitations
-
-- Do not use `finance_app.db` in production. Neon stores the data instead.
-- Uploaded profile images are disabled on Vercel until cloud object storage is connected; local uploads are not durable in serverless hosting.
-- Stripe billing, Brevo email delivery, Sentry, and Redis rate limiting are optional integrations. Add their keys only when those services are configured.
-- Vercel Hobby is for personal/non-commercial projects and has usage limits.
-
-## Secrets
-
-Never commit `.env`, database URLs, SMTP passwords, Stripe keys, or Gemini keys. Use [.env.example](.env.example) only as a safe local template.
-
-## Tests
+## Test it
 
 ```powershell
 python -m pytest -q
 ```
+
+## Keep secrets secret
+
+Never push `.env`, database URLs, API keys, passwords, or webhook secrets. Use [.env.example](.env.example) as the shareable template instead.
+
+---
+
+Built to make money management feel a little less stressful. 🌿
