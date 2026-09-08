@@ -1,0 +1,11 @@
+.env
+.env.*
+.venv
+venv
+__pycache__
+.pytest_cache
+tests
+finance_app.db
+finance_app.db-*
+backups
+static/uploads

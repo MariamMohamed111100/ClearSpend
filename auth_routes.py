@@ -282,6 +282,9 @@ def settings():
 @bp.route("/settings/avatar", methods=["POST"])
 def upload_avatar():
     user_id = session.get("user_id")
+    if current_app.config.get("VERCEL"):
+        flash("Profile photo uploads need cloud storage before they can be used on Vercel.", "error")
+        return redirect(url_for("auth.settings"))
     image = request.files.get("avatar")
     if not user_id or not image or not image.filename:
         flash("Choose an image to upload.", "error")

@@ -5,6 +5,5 @@ stripe==12.5.0
 Flask-WTF==1.2.2
 Flask-Limiter==3.12
 psycopg[binary]==3.2.13
-gunicorn==23.0.0
 sentry-sdk[flask]==2.48.0
 pytest==8.3.3

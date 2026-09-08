@@ -13,6 +13,7 @@ class Config:
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
     TRUST_PROXY_HEADERS = os.getenv("TRUST_PROXY_HEADERS", "false").lower() == "true"
+    VERCEL = os.getenv("VERCEL", "").lower() == "1"
     DEBUG = os.getenv("FLASK_DEBUG", "false").lower() == "true"
     JSON_SORT_KEYS = False
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
