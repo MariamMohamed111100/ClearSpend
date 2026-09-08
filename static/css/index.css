@@ -419,3 +419,10 @@ textarea { resize: vertical; min-height: 110px; }
 .remove-row:hover { background: #ef8354; border-color: #ef8354; color: #fff; }
 .remove-row svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .dark-theme .remove-row { border-color: #6b493d; background: #362820; color: #ffad8b; }
+
+/* Keep the in-app mark identical to the browser-tab icon across every screen. */
+.brand-mark {
+  background: url('/static/favicon.svg') center / cover no-repeat !important;
+  color: transparent !important;
+  font-size: 0 !important;
+}
