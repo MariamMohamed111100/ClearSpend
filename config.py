@@ -33,7 +33,7 @@ class Config:
     REQUIRE_EMAIL_VERIFICATION = os.getenv("REQUIRE_EMAIL_VERIFICATION", "false").lower() == "true"
     MAIL_SUPPRESS_SEND = os.getenv("MAIL_SUPPRESS_SEND", "true").lower() == "true"
     MAIL_SERVER = os.getenv("MAIL_SERVER", "")
-    MAIL_PORT = int(os.getenv("MAIL_PORT", "587"))
+    MAIL_PORT = int(os.getenv("MAIL_PORT") or "587")
     MAIL_USERNAME = os.getenv("MAIL_USERNAME", "")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "")
     MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "")
