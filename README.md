@@ -6,7 +6,7 @@
 [![PostgreSQL](https://img.shields.io/badge/Database-Neon_Postgres-4a2b65?logo=postgresql&logoColor=white)](https://neon.com/)
 [![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-111111?logo=vercel&logoColor=white)](https://vercel.com/)
 
-**[Open ClearSpend ↗](https://clear-spend-23anbkx7l-mariam-3e97.vercel.app/)**
+**[Open ClearSpend ↗](https://clear-spend-ten.vercel.app/)**
 
 ClearSpend is a full-stack personal-finance dashboard built with Flask. Add transactions, set budgets and savings goals, spot spending patterns, and get an AI-powered next step—all in one friendly workspace.
 
