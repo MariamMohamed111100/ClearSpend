@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A calmer, smarter way to understand your money with AI-powered financial insights." />
+    <title>ClearSpend | Make your money make sense</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" /><link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}" />
+  </head>
+  <body class="landing-body">
+    <div class="landing-shell">
+      <nav class="landing-nav" aria-label="Main navigation">
+        <a class="landing-brand" href="{{ url_for('insight_bp.index') }}"><span class="brand-mark">C</span><span>ClearSpend</span></a>
+        <div class="landing-nav-links">
+          <a href="#how-it-works">How it works</a>
+          <a href="#features">Features</a>
+          <span class="landing-language" aria-label="Choose app language"><a class="{{ 'active' if visitor_language == 'en' else '' }}" href="{{ url_for('insight_bp.choose_language', language='en') }}">EN</a><span>/</span><a class="{{ 'active' if visitor_language == 'ar' else '' }}" href="{{ url_for('insight_bp.choose_language', language='ar') }}">AR</a></span>
+          <a href="{{ url_for('auth.login') }}">Log in</a>
+          <a class="nav-cta" href="{{ url_for('auth.register') }}">Get started <span aria-hidden="true">↗</span></a>
+        </div>
+      </nav>
+
+      <main>
+        <section class="hero-section">
+          <div class="hero-copy">
+            <p class="eyebrow hero-eyebrow"><span class="pulse-dot"></span> Your money, made clearer</p>
+            <h1>Feel better about<br /><em>every dollar.</em></h1>
+            <p class="hero-lede">ClearSpend turns everyday spending into simple next steps. Track what matters, spot patterns early, and build a plan that feels like yours.</p>
+            <div class="hero-actions">
+              <a class="hero-cta" href="{{ url_for('auth.register') }}">Start for free <span aria-hidden="true">→</span></a>
+              <a class="text-link" href="{{ url_for('insight_bp.workspace') }}">Try the AI advisor <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="trust-line"><span class="avatar-stack"><i>A</i><i>M</i><i>J</i></span><span>Built for real life, not spreadsheets</span></div>
+          </div>
+
+          <div class="hero-visual" aria-label="ClearSpend financial dashboard preview">
+            <div class="visual-glow"></div>
+            <div class="preview-window">
+              <div class="preview-top"><span class="preview-brand"><b>C</b> ClearSpend</span><span class="preview-pill">October overview</span></div>
+              <div class="preview-heading"><div><span class="preview-kicker">Good morning, Alex</span><h2>Your money at a glance</h2></div><span class="preview-avatar">A</span></div>
+              <div class="preview-metrics"><div><span>Available to spend</span><strong>$2,840<span class="metric-cents">.50</span></strong><small>↑ 12.4% from last month</small></div><div><span>Savings progress</span><strong>68%</strong><div class="mini-progress"><i></i></div><small>On track for your goal</small></div></div>
+              <div class="preview-chart"><div class="chart-label"><span>Spending rhythm</span><span>Last 7 days</span></div><svg viewBox="0 0 420 120" role="img" aria-label="Spending rhythm chart"><path d="M0 96 C35 84 42 88 70 72 S110 76 135 78 S170 42 200 58 S240 75 270 48 S310 58 340 30 S385 42 420 12" fill="none" stroke="#ef8354" stroke-width="4" stroke-linecap="round"/><path d="M0 96 C35 84 42 88 70 72 S110 76 135 78 S170 42 200 58 S240 75 270 48 S310 58 340 30 S385 42 420 12 L420 120 L0 120Z" fill="url(#area)" opacity=".32"/><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ef8354"/><stop offset="1" stop-color="#ef8354" stop-opacity="0"/></linearGradient></defs></svg><div class="chart-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div>
+              <div class="preview-insight"><span class="insight-spark">✦</span><div><b>A small win for you</b><p>Dining is down 18% this week. Keep the momentum going.</p></div><span class="insight-arrow">→</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="logo-strip" aria-label="Product promise"><span>Less guesswork.</span><span>More momentum.</span><span>Better money days.</span></section>
+
+        <section class="feature-section" id="how-it-works">
+          <div class="section-intro"><p class="eyebrow">A better money habit</p><h2>Small clarity.<br /><em>Big difference.</em></h2><p>Everything you need to move from “where did it go?” to “I’ve got this.”</p></div>
+          <div class="feature-grid" id="features">
+            <article class="feature-card feature-card-warm"><span class="feature-number">01</span><span class="feature-icon">◒</span><h3>See the full picture</h3><p>Bring budgets, transactions, and goals into one calm, clear view.</p><a href="{{ url_for('auth.register') }}">Explore your picture <span>→</span></a></article>
+            <article class="feature-card feature-card-dark"><span class="feature-number">02</span><span class="feature-icon">✦</span><h3>Get a smarter nudge</h3><p>Your AI advisor turns patterns into advice you can actually use today.</p><a href="{{ url_for('insight_bp.workspace') }}">Ask your advisor <span>→</span></a></article>
+            <article class="feature-card feature-card-sage"><span class="feature-number">03</span><span class="feature-icon">↗</span><h3>Make progress visible</h3><p>Watch your cashflow, savings, and spending habits move in the right direction.</p><a href="{{ url_for('auth.register') }}">Start making progress <span>→</span></a></article>
+          </div>
+        </section>
+
+        <section class="closing-section"><div><p class="eyebrow">Ready when you are</p><h2>Your next good money decision<br /><em>starts here.</em></h2></div><a class="hero-cta" href="{{ url_for('auth.register') }}">Create your free account <span aria-hidden="true">→</span></a></section>
+      </main>
+      <footer class="landing-footer"><span>© 2026 ClearSpend</span><span>Thoughtful tools for real life.</span><div><a href="{{ url_for('auth.privacy') }}">Privacy</a><a href="{{ url_for('auth.terms') }}">Terms</a></div></footer>
+    </div>
+  <script src="{{ url_for('static', filename='js/pwa.js') }}"></script></body>
+</html>

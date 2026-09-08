@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms - Finance SaaS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
+  </head>
+  <body class="app-body"><div class="app-layout"><aside class="app-sidebar"><a class="app-logo" href="{{ url_for('dashboard.dashboard_home') if session.get('user_id') else url_for('insight_bp.index') }}"><span class="brand-mark">C</span><span>ClearSpend</span></a><nav class="side-nav"><a href="{{ url_for('insight_bp.index') }}"><span>⌂</span> Home</a><a href="{{ url_for('auth.privacy') }}"><span>◌</span> Privacy</a><a class="active" href="{{ url_for('auth.terms') }}"><span>▤</span> Terms</a></nav></aside><main class="app-main"><header class="app-header"><div><p class="eyebrow">The clear version</p><h1>Terms of Service <span aria-hidden="true">▤</span></h1><p class="header-subtitle">The simple rules that keep the service useful for everyone.</p></div><a class="hero-cta compact-cta" href="{{ url_for('auth.privacy') }}">Privacy <span>→</span></a></header><article class="app-panel legal-panel privacy-copy">
+        <h2>Service use</h2>
+        <p>Use the service lawfully and keep your account credentials private. You are responsible for the financial information you enter.</p>
+        <h2>Financial information</h2>
+        <p>Insights are educational recommendations, not financial, tax, legal, or investment advice. Confirm important decisions with a qualified professional.</p>
+        <h2>Subscriptions</h2>
+        <p>Premium access is subject to the plan and payment terms shown at checkout. Subscription status is synchronized from the payment provider.</p>
+        <h2>Availability</h2>
+        <p>We work to keep the service available, but cannot guarantee uninterrupted access or error-free AI output.</p>
+      </article></main></div>
+  </body>
+</html>

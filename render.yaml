@@ -1,0 +1,55 @@
+services:
+  - type: web
+    name: finance-insight-assistant
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_DEBUG
+        value: "false"
+      - key: REQUIRE_POSTGRES
+        value: "true"
+      - key: TRUST_PROXY_HEADERS
+        value: "true"
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: APP_BASE_URL
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.6-flash
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PREMIUM_PRICE_ID
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: INSIGHT_API_KEY
+        sync: false
+      - key: RATELIMIT_STORAGE_URI
+        sync: false
+      - key: REQUIRE_EMAIL_VERIFICATION
+        value: "true"
+      - key: MAIL_SUPPRESS_SEND
+        value: "false"
+      - key: MAIL_SERVER
+        sync: false
+      - key: MAIL_PORT
+        value: "587"
+      - key: MAIL_USERNAME
+        sync: false
+      - key: MAIL_PASSWORD
+        sync: false
+      - key: MAIL_DEFAULT_SENDER
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: SENTRY_DSN
+        sync: false

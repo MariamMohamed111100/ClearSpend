@@ -1,0 +1,15 @@
+.git/
+.env
+.env.*
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+tests/
+finance_app.db
+finance_app.db-*
+backups/
+static/uploads/
+.DS_Store
+Thumbs.db
