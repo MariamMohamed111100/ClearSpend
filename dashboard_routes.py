@@ -314,7 +314,7 @@ def manage_transactions():
                 except ValueError:
                     flash("Amount filters must be valid numbers.", "error")
         where = " AND ".join(clauses)
-        total = conn.execute(f"SELECT COUNT(*) FROM transactions WHERE {where}", parameters).fetchone()[0]
+        total = conn.execute(f"SELECT COUNT(*) AS total FROM transactions WHERE {where}", parameters).fetchone()["total"]
         transactions = conn.execute(
             f"SELECT * FROM transactions WHERE {where} ORDER BY created_at DESC LIMIT 20 OFFSET ?",
             [*parameters, (page - 1) * 20],
