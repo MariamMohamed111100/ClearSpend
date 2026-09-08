@@ -71,6 +71,9 @@ def generate_insight():
             categories=payload.get("categories", {}),
             recent_transactions=payload.get("recent_transactions", []),
         )
+    except insight_service.InsightConfigurationError as exc:
+        current_app.logger.error("Insight configuration failure: %s", exc)
+        return jsonify({"error": "AI setup is incomplete. Add a valid GEMINI_API_KEY in Vercel, then redeploy."}), 503
     except RuntimeError as exc:
         current_app.logger.warning("Insight provider failure: %s", exc)
         return jsonify({"error": "Unable to generate an insight right now."}), 500
@@ -117,6 +120,9 @@ def generate_premium_insight():
             categories=categories,
             recent_transactions=[dict(row) for row in transactions],
         )
+    except insight_service.InsightConfigurationError as exc:
+        current_app.logger.error("Premium insight configuration failure: %s", exc)
+        return jsonify({"error": "AI setup is incomplete. Add a valid GEMINI_API_KEY in Vercel, then redeploy."}), 503
     except RuntimeError as exc:
         current_app.logger.warning("Premium insight provider failure: %s", exc)
         return jsonify({"error": "Unable to generate an insight right now."}), 500

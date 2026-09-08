@@ -9,6 +9,10 @@ from google.genai import types
 load_dotenv()
 
 
+class InsightConfigurationError(RuntimeError):
+    """Raised when the server has not been given a usable Gemini setting."""
+
+
 def _normalize_categories(categories: Any) -> dict[str, Any]:
     if isinstance(categories, dict):
         return categories
@@ -59,11 +63,13 @@ Return only the final answer text, no markdown block or JSON wrapper.
 
 
 def generate_financial_insight(user_input: str, monthly_income: Any, categories: Any, recent_transactions: Any) -> str:
-    api_key = os.getenv("GEMINI_API_KEY")
+    api_key = (os.getenv("GEMINI_API_KEY") or "").strip()
     if not api_key:
-        raise RuntimeError("GEMINI_API_KEY is not configured.")
+        raise InsightConfigurationError("GEMINI_API_KEY is not configured.")
 
-    model_name = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
+    model_name = (os.getenv("GEMINI_MODEL") or "gemini-3.6-flash").strip()
+    if not model_name:
+        raise InsightConfigurationError("GEMINI_MODEL is not configured.")
     client = genai.Client(api_key=api_key)
     prompt = build_finance_prompt(user_input, monthly_income, categories, recent_transactions)
 
